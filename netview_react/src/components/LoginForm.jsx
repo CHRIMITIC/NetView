@@ -43,27 +43,26 @@ function LoginForm() {
     }
 
     return (
-        <div>
-            <div>
-                <h2>Login</h2>
-                <form onSubmit={handleLogin}>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <br/>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <br/>
-                    <button type="submit">Login</button>
-                </form>
-            </div>
+        <div id="Container">
+            <form onSubmit={handleLogin}>
+                <div id="Login">
+                    <h2 className="bg-transparent font-bold text-2xl font-sans">Login</h2>
+                </div>
+                <input type="text" placeholder="Username" id="username" value={username}
+                       onChange={(e) => setUsername(e.target.value)}/>
+                <br/>
+                <input type="password" placeholder="Password" is="password" value={password}
+                       onChange={(e) => setPassword(e.target.value)}/>
+                <br/>
+                <div id="box">
+                    <div id="check">
+                        <input type="checkbox" id="checkbox"/>
+                        <label htmlFor="checkbox" id="label">Remind Me</label>
+                    </div>
+                    <a id="link" href="https://youtube.com">Forgot Password?</a>
+                </div>
+                <button type="submit" id="button">Login</button>
+            </form>
         </div>
     );
 }

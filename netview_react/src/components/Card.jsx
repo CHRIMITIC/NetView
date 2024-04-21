@@ -19,6 +19,11 @@ function Card({desc,page,i}) {
             setSm(list[2])
             setType(list[3])
             b.innerText=name;
+
+
+            //per info device creo tab per protocolli rotte e database
+
+
         }
     },[])
     const handleClick=()=>{
