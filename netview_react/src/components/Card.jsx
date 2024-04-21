@@ -30,7 +30,7 @@ function Card({desc,page,i}) {
         }
     }
     return(
-        <button id={i} className="bg-amber-500" onClick={handleClick}>{name}</button>
+        <button id={i} className="bg-amber-500" onClick={handleClick}>{(page=="network")?desc:name}</button>
     );
 }
 export default Card;
