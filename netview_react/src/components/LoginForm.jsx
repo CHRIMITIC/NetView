@@ -2,23 +2,37 @@ import {useEffect,useState} from 'react'
 import '../stylesheets/Login.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loggedIn, setLoggedIn] = useState('');
     const navigate=useNavigate();
+    useEffect(()=>{
+        if(Cookies.get('loggedIn')) {
+            let c=(Cookies.get('loggedIn'));
+            if(c==="false"){
+                setLoggedIn(false);
+            }else{
+                setLoggedIn(true);
+            }
+        }
+    },[])
     useEffect(() => {
-        if(loggedIn)
+        if(loggedIn){
+            Cookies.set("username",username);
+            Cookies.set("password",password);
+            Cookies.set("loggedIn",loggedIn.toString());
             navigate("/home");
-    }, [loggedIn, navigate]);
+        }
+    }, [loggedIn]);
     const handleLogin=async (e) => {
         e.preventDefault()
         const url=`http://localhost:8080/api/login?username='${username}'&password='${password}'`;
         axios.get(url)
             .then(resp => {
                 setLoggedIn(resp.data);
-                console.log(resp.data)
                 if(!resp.data){
                     alert("Not logged in");
                 }

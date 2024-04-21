@@ -1,9 +1,6 @@
 package com.example.netview_java.controller;
-import com.example.netview_java.model.Signup;
 import com.example.netview_java.model.Users;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.SQLException;
 import java.util.*;
 
 @RestController

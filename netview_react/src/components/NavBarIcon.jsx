@@ -1,17 +1,23 @@
 import {useEffect,useStatus} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 function NavBarIcon({icon,label}) {
     const navigate = useNavigate();
     const handleClick=()=>{
         switch(label){
             case "Logout":
-                //elimina cookies
+                Cookies.remove("username");
+                Cookies.remove("password")
+                Cookies.set("loggedIn",false);
                 navigate("/");
                 break;
             case "SignUp":
                 navigate("/signup");
                 break;
+            case "Home":
+                navigate("/home");
+                break
             default:
                 return "";
         }

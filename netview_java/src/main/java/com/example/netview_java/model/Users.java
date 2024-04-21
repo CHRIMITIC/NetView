@@ -34,7 +34,6 @@ public class Users {
         this.nwId = nwId;
     }
     public ArrayList<String[]> getUsers() throws SQLException {
-        String[] s=new String[4];
         ArrayList<String[]> a=new ArrayList<String[]>();
         DatabaseConnection db = new DatabaseConnection();
         Connection con=db.connect();
@@ -42,10 +41,11 @@ public class Users {
         String query="SELECT * FROM netview.users WHERE(NetworkId="+Integer.parseInt(nwId)+");";
         ResultSet rs=st.executeQuery(query);
         while(rs.next()){
+            String[] s=new String[4];
             s[0]=rs.getString("Username");
             s[1]=rs.getString("Password");
             s[2]=rs.getString("Type");
-            s[3]=rs.getString("NetworkId");
+            s[3]=Integer.toString(rs.getInt("NetworkId"));
             a.add(s);
         }
         return a;
