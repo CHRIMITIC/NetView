@@ -3,6 +3,8 @@ import '../stylesheets/Signup.css'
 import axios from "axios";
 import NavBar from "./NavBar.jsx";
 import Cookies from "js-cookie";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUserMinus,faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
 function SignupForm() {
     const u=Cookies.get("username");
@@ -30,7 +32,7 @@ function SignupForm() {
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
-    const handleSignup=async (e) => {
+    const handleClick=async (e) => {
         e.preventDefault();
         const url=`http://localhost:8080/api/signup?username='${username}'&password='${password}'&nwId='${nwId}'&type='${type}'`;
         axios.get(url)
@@ -47,50 +49,74 @@ function SignupForm() {
             <div className="app-container h-full w-full">
                 <NavBar></NavBar>
                 <table border="1">
-                    <tr><td>Username</td><td>Password</td><td>Type</td><td>NetworkId</td></tr>
-                    {users.map((item,index)=>(
-                        <tr key={index}>
-                            {item.map((l,i)=>(
-                                <td key={i}>{l}</td>
-                            ))}
+                    <tbody>
+                        <tr>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Type</th>
+                            <th>NetworkId</th>
+                            <th>Remove</th>
                         </tr>
-                    ))}
+                        {users.map((item,index)=>(
+                            <tr key={index}>
+                                {item.map((l,i)=>(
+                                    <td key={i}>{l}</td>
+                                ))}
+                                <td key={4}><button><FontAwesomeIcon icon={faUserMinus}/></button></td>
+                            </tr>
+                        ))}
+                        <tr>
+                            <td><input type={"text"} placeholder={"Username"}/></td>
+                            <td><input type={"text"} placeholder={"Password"}/></td>
+                            <td>
+                                <select>
+                                    <optgroup label="Type">
+                                        <option value={"Admin"}>Admin</option>
+                                        <option value={"Simple"}>Simple</option>
+                                    </optgroup>
+                                </select>
+                            </td>
+                            <td><input type={"text"} placeholder={"NetworkId"}/></td>
+                            <td><button onClick={handleClick}><FontAwesomeIcon icon={faUserPlus}/></button></td>
+                        </tr>
+                    </tbody>
                 </table>
+
             </div>
-            <div>
-                <h2>Signup</h2>
-                <form onSubmit={handleSignup}>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <br/>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <br/>
-                    <input
-                        type="text"
-                        placeholder="NwId"
-                        value={nwId}
-                        onChange={(e) => setNwId(e.target.value)}
-                    />
-                    <br/>
-                    <input
-                        type="text"
-                        placeholder="Type"
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                    />
-                    <br/>
-                    <button type="submit">Signup</button>
-                </form>
-            </div>
+            {/*<div>*/}
+            {/*    <h2>Signup</h2>*/}
+            {/*    <form onSubmit={handleSignup}>*/}
+            {/*        <input*/}
+            {/*            type="text"*/}
+            {/*            placeholder="Username"*/}
+            {/*            value={username}*/}
+            {/*            onChange={(e) => setUsername(e.target.value)}*/}
+            {/*        />*/}
+            {/*        <br/>*/}
+            {/*        <input*/}
+            {/*            type="password"*/}
+            {/*            placeholder="Password"*/}
+            {/*            value={password}*/}
+            {/*            onChange={(e) => setPassword(e.target.value)}*/}
+            {/*        />*/}
+            {/*        <br/>*/}
+            {/*        <input*/}
+            {/*            type="text"*/}
+            {/*            placeholder="NwId"*/}
+            {/*            value={nwId}*/}
+            {/*            onChange={(e) => setNwId(e.target.value)}*/}
+            {/*        />*/}
+            {/*        <br/>*/}
+            {/*        <input*/}
+            {/*            type="text"*/}
+            {/*            placeholder="Type"*/}
+            {/*            value={type}*/}
+            {/*            onChange={(e) => setType(e.target.value)}*/}
+            {/*        />*/}
+            {/*        <br/>*/}
+            {/*        <button type="submit">Signup</button>*/}
+            {/*    </form>*/}
+            {/*</div>*/}
         </div>
     );
 }

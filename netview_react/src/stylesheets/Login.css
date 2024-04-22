@@ -45,6 +45,10 @@ form{
   background: #FFFFFF;
   border-color: #00648E;
   border-width: 2px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 h2{
   background: transparent;
@@ -80,11 +84,14 @@ input[type=password]:focus{
   /*margin-top:34px;*/
 }
 #button{
+  font-size: 16px;
+  font-weight: bold;
   margin-top:34px;
   width:375px;
   height:50px;
   background-color: #1286aa;
   border-radius: 25px;
+  color:rgb(244,244,255);
 }
 #button:hover{
   color:rgb(244,244,255);

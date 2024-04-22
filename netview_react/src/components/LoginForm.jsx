@@ -21,6 +21,11 @@ function LoginForm() {
     },[])
     useEffect(() => {
         if(loggedIn){
+            if(document.getElementById("checkbox").checked){
+                Cookies.set("check","true")
+            }else{
+                Cookies.set("check","false")
+            }
             Cookies.set("username",username);
             Cookies.set("password",password);
             Cookies.set("loggedIn",loggedIn.toString());
@@ -51,7 +56,7 @@ function LoginForm() {
                 <input type="text" placeholder="Username" id="username" value={username}
                        onChange={(e) => setUsername(e.target.value)}/>
                 <br/>
-                <input type="password" placeholder="Password" is="password" value={password}
+                <input type="password" placeholder="Password" id="password" value={password}
                        onChange={(e) => setPassword(e.target.value)}/>
                 <br/>
                 <div id="box">

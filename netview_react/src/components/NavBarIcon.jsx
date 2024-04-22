@@ -9,7 +9,8 @@ function NavBarIcon({icon,label}) {
             case "Logout":
                 Cookies.remove("username");
                 Cookies.remove("password")
-                Cookies.set("loggedIn",false);
+                Cookies.set("loggedIn","false");
+                Cookies.set("check","false");
                 navigate("/");
                 break;
             case "SignUp":

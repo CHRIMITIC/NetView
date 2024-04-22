@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class LoginController {
     @CrossOrigin(origins = "*")
-    @GetMapping("/test")
+    @PostMapping("/test")
     public String test() {
         return "working";
     }
