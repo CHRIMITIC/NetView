@@ -5,32 +5,47 @@ import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { styled } from '@mui/system';
+import axios from "axios";
 function Card({desc,page,i}) {
     const navigate=useNavigate();
     const [name,setName]=useState('');
     const [ip,setIp]=useState('');
     const [sm,setSm]=useState('');
     const [type,setType]=useState('');
+    const [ports,setPorts]=useState([]);
     const [anchor, setAnchor]=useState(null);
     const open= Boolean(anchor);
     let list
+    let flag=false
     useEffect(()=>{
         const b=document.getElementById(i);
-        if(desc.includes(";")){
-            list=desc.split(";")
+        if(desc.includes(";")) {
+            list = desc.split(";")
             setName(list[0])
             setIp(list[1])
             setSm(list[2])
             setType(list[3])
-            b.innerText=name;
+            b.innerText = name;
         }
     },[])
     const handleClick=(e)=>{
+        getPorts()
         setAnchor(anchor ? null : e.currentTarget);
         if(page=="network"){
             Cookies.set("nwId",desc);
             navigate(`/${page}`)
         }
+    }
+    const getPorts=async()=>  {
+        const url=`http://localhost:8080/api/ports?devName='${name}'&nwId='${Cookies.get("nwId")}'`;
+        axios.get(url)
+            .then(resp => {
+                setPorts(resp.data)
+                console.log("RESP"+resp.data)
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+        });
     }
     const icons=[
         "./src/assets/Pc.png",
@@ -62,28 +77,38 @@ function Card({desc,page,i}) {
                 <PopupBody>
                     {(page==="")?
                         <div>
-                        <img src={(type==="Host")?icons[0]:(type==="Router")?icons[1]:(type==="Server")?icons[2]:icons[3]}></img>
-                        <input id={"nameText " + i} type="text" placeholder={name} defaultValue={name}/>
-                        <input id={"ipText " + i} type="text" placeholder={ip} defaultValue={ip}/>
-                        <input id={"smText " + i} type="text" placeholder={sm} defaultValue={sm}/>
-                        <input id={"typeText " + i} type="text" placeholder={type} defaultValue={type}/>
-                        <br/>
-                        <button>Save</button>
-                        </div>
-                    :(page==="newnetwork") ?
-                        <div>
-                            <input id={"Input " + i} type="text" placeholder={name} defaultValue={name}/>
-                            {name + "," + ip + "," + sm + "," + type}
+                            <img src={(type==="Host")?icons[0]:(type==="Router")?icons[1]:(type==="Server")?icons[2]:icons[3]}></img>
+                            <input id={"nameText " + i} type="text" placeholder={name} defaultValue={name}/>
+                            <input id={"ipText " + i} type="text" placeholder={ip} defaultValue={ip}/>
+                            <input id={"smText " + i} type="text" placeholder={sm} defaultValue={sm}/>
+                            <input id={"typeText " + i} type="text" placeholder={type} defaultValue={type}/>
+                            <br/>
+                            {ports.map((item,index)=>(
+                                <div key={index}>
+                                    {item.map((l,ind)=> (
+                                        <button key={ind}>
+                                            {l}
+                                        </button>
+                                    ))}
+                                </div>
+                            ))}
                             <br/>
                             <button>Save</button>
                         </div>
-                    :
-                        <div>
-                            <input id={"Input " + i} type="text" placeholder={name} defaultValue={name}/>
-                            {name + "," + ip + "," + sm + "," + type}
-                            <br/>
-                            <button>Save</button>
-                        </div>
+                        :(page==="newnetwork") ?
+                            <div>
+                                <input id={"Input " + i} type="text" placeholder={name} defaultValue={name}/>
+                                {name + "," + ip + "," + sm + "," + type}
+                                <br/>
+                                <button>Save</button>
+                            </div>
+                            :
+                            <div>
+                                <input id={"Input " + i} type="text" placeholder={name} defaultValue={name}/>
+                                {name + "," + ip + "," + sm + "," + type}
+                                <br/>
+                                <button>Save</button>
+                            </div>
                     }
                 </PopupBody>
             </BasePopup>

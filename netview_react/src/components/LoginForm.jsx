@@ -10,13 +10,10 @@ function LoginForm() {
     const [loggedIn, setLoggedIn] = useState('');
     const navigate=useNavigate();
     useEffect(()=>{
-        if(Cookies.get('loggedIn')) {
-            let c=(Cookies.get('loggedIn'));
-            if(c==="false"){
-                setLoggedIn(false);
-            }else{
-                setLoggedIn(true);
-            }
+        if(Cookies.get('loggedIn')==="true") {
+            setLoggedIn(true);
+        }else{
+            setLoggedIn(false);
         }
     },[])
     useEffect(() => {
@@ -46,7 +43,6 @@ function LoginForm() {
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
-
     return (
         <div id="Container">
             <form onSubmit={handleLogin}>

@@ -17,7 +17,7 @@ function Home() {
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
-            });
+        });
     },[])
     return (
         <div className="app-container h-full w-full">

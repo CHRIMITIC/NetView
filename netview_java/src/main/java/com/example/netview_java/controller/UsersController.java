@@ -10,8 +10,7 @@ public class UsersController {
     public ArrayList<String[]> users(@RequestParam String username, @RequestParam String password,@RequestParam String nwId) {
         Users user=new Users(username,password,nwId);
         try {
-            ArrayList<String[]> a=user.getUsers();
-            return a;
+            return user.getUsers();
         } catch (Exception e) {
             e.printStackTrace();
         }
