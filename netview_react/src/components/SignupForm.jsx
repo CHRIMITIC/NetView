@@ -32,13 +32,73 @@ function SignupForm() {
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
-    const handleClick=async (e) => {
+    const handleAdd=async (e) => {
         e.preventDefault();
-        const url=`http://localhost:8080/api/signup?username='${username}'&password='${password}'&nwId='${nwId}'&type='${type}'`;
+        let flag=true
+        let userText=document.getElementById("username").value;
+        let pswText=document.getElementById("password").value;
+        let typeText=document.getElementById("type").value;
+        users.map((item)=>(
+            item.map((l,i)=>{
+                if(i===0){
+                    if((l.toString()===userText)||(Cookies.get("username")===userText)){
+                        flag=false
+                    }else{
+                        console.log(userText+","+pswText+","+typeText)
+                    }
+                }
+            })
+        ))
+        if(flag){
+            const url=`http://localhost:8080/api/add?username='${userText}'&password='${pswText}'&nwId='${Cookies.get("nwId")}'&type='${typeText}'`;
+            axios.get(url)
+                .then(resp => {
+                    if(!resp.data){
+                        alert("Operation failed")
+                    }else{
+                        location.reload()
+                    }
+                    console.log(resp.data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }else{
+            alert("User already existing");
+        }
+    }
+    const handleRemove=async (index) => {
+        let flag=true
+        let userText;
+        let pswText;
+        let typeText;
+        users.map((item,ind)=> {
+            if (index === ind) {
+                item.map((l, i) => {
+                    switch(i){
+                        case 0:
+                            userText=l;
+                            break;
+                        case 1:
+                            pswText=l;
+                            break
+                        case 2:
+                            typeText=l;
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            }
+        })
+        const url=`http://localhost:8080/api/remove?username='${userText}'&password='${pswText}'&nwId='${Cookies.get("nwId")}'&type='${typeText}'`;
         axios.get(url)
             .then(resp => {
-                setLoggedIn(resp.data);
-                console.log(resp.data);
+                if(!resp.data){
+                    alert("Operation failed")
+                }else{
+                    location.reload()
+                }
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -54,30 +114,30 @@ function SignupForm() {
                             <th>Username</th>
                             <th>Password</th>
                             <th>Type</th>
-                            <th>NetworkId</th>
                             <th>Remove</th>
                         </tr>
                         {users.map((item,index)=>(
                             <tr key={index}>
                                 {item.map((l,i)=>(
-                                    <td key={i}>{l}</td>
+                                    <td key={i}>
+                                        {l}
+                                    </td>
                                 ))}
-                                <td key={4}><button><FontAwesomeIcon icon={faUserMinus}/></button></td>
+                                <td key={3}><button onClick={()=>handleRemove(index)}><FontAwesomeIcon icon={faUserMinus}/></button></td>
                             </tr>
                         ))}
                         <tr>
-                            <td><input type={"text"} placeholder={"Username"}/></td>
-                            <td><input type={"text"} placeholder={"Password"}/></td>
+                            <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
+                            <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
                             <td>
-                                <select>
+                                <select id={"type"}>
                                     <optgroup label="Type">
                                         <option value={"Admin"}>Admin</option>
                                         <option value={"Simple"}>Simple</option>
                                     </optgroup>
                                 </select>
                             </td>
-                            <td><input type={"text"} placeholder={"NetworkId"}/></td>
-                            <td><button onClick={handleClick}><FontAwesomeIcon icon={faUserPlus}/></button></td>
+                            <td><button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button></td>
                         </tr>
                     </tbody>
                 </table>

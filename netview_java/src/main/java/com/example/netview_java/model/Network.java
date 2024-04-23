@@ -9,6 +9,8 @@ public class Network {
         this.username = username;
         this.password = password;
     }
+    public Network() {
+    }
     public String getUsername() {
         return username;
     }
@@ -34,5 +36,17 @@ public class Network {
             a.add(n);
         }
         return a;
+    }
+    public int getNwId() throws SQLException {
+        int n=0;
+        DatabaseConnection db = new DatabaseConnection();
+        Connection con=db.connect();
+        Statement st=con.createStatement();
+        String query="SELECT * FROM netview.network ORDER BY NetworkId DESC;";
+        ResultSet rs=st.executeQuery(query);
+        if(rs.next()){
+            n=rs.getInt("NetworkId");
+        }
+        return n;
     }
 }

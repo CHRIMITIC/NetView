@@ -1,4 +1,3 @@
-import { faHome, faUser, faCog, faInfo, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheets/Home.css'
 import NavBar from "../components/NavBar.jsx";
 import CardContainer from "../components/CardContainer.jsx";

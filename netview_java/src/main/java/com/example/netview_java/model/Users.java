@@ -38,14 +38,13 @@ public class Users {
         DatabaseConnection db = new DatabaseConnection();
         Connection con=db.connect();
         Statement st=con.createStatement();
-        String query="SELECT * FROM netview.users WHERE(NetworkId="+Integer.parseInt(nwId)+");";
+        String query="SELECT * FROM netview.users WHERE(NetworkId="+Integer.parseInt(nwId)+" AND Username!="+username+") ORDER BY Type ASC;";
         ResultSet rs=st.executeQuery(query);
         while(rs.next()){
-            String[] s=new String[4];
+            String[] s=new String[3];
             s[0]=rs.getString("Username");
             s[1]=rs.getString("Password");
             s[2]=rs.getString("Type");
-            s[3]=Integer.toString(rs.getInt("NetworkId"));
             a.add(s);
         }
         return a;

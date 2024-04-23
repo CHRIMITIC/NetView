@@ -1,12 +1,12 @@
 package com.example.netview_java.model;
 import java.sql.*;
 
-public class Signup {
+public class AddUser {
     String username;
     String password;
     String nwId;
     String type;
-    public Signup(String username, String password, String nwId, String type) {
+    public AddUser(String username, String password, String nwId, String type) {
         this.username = username;
         this.password = password;
         this.nwId = nwId.replaceAll("'","");;
@@ -37,14 +37,18 @@ public class Signup {
         this.type = type;
     }
     public Boolean insertDatabase() throws SQLException {
+        boolean result = false;
         DatabaseConnection db = new DatabaseConnection();
         Connection con=db.connect();
         Statement st=con.createStatement();
-        String query="SELECT * FROM netview.users WHERE(Username="+username+" AND Password="+password+" AND NetworkId="+Integer.parseInt(nwId)+" AND Type="+type+");";
-        ResultSet rs=st.executeQuery(query);
-        if(!rs.next()){
-            query="INSERT INTO users (Username, Password, Type, NetworkId) VALUES ("+username+", "+password+", "+type+", "+Integer.parseInt(nwId)+");";
+        String query="INSERT INTO users (Username, Password, Type, NetworkId) VALUES ("+username+", "+password+", "+type+", "+Integer.parseInt(nwId)+");";
+        try{
             st.executeUpdate(query);
+            result = true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if(result){
             return true;
         }else{
             return false;
