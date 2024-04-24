@@ -1,12 +1,11 @@
-import {useEffect, useState} from 'react'
-import '../stylesheets/Signup.css'
+import Cookies from "js-cookie";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import NavBar from "./NavBar.jsx";
-import Cookies from "js-cookie";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUserMinus,faUserPlus} from "@fortawesome/free-solid-svg-icons";
+import {faUserMinus, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
-function SignupForm() {
+function Settings() {
     const u=Cookies.get("username");
     const p=Cookies.get("password");
     const n=Cookies.get("nwId");
@@ -110,35 +109,35 @@ function SignupForm() {
                 <NavBar></NavBar>
                 <table border="1">
                     <tbody>
-                        <tr>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Type</th>
-                            <th>Remove</th>
+                    <tr>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Type</th>
+                        <th>Remove</th>
+                    </tr>
+                    {users.map((item,index)=>(
+                        <tr key={index}>
+                            {item.map((l,i)=>(
+                                <td key={i}>
+                                    {l}
+                                </td>
+                            ))}
+                            <td key={3}><button onClick={()=>handleRemove(index)}><FontAwesomeIcon icon={faUserMinus}/></button></td>
                         </tr>
-                        {users.map((item,index)=>(
-                            <tr key={index}>
-                                {item.map((l,i)=>(
-                                    <td key={i}>
-                                        {l}
-                                    </td>
-                                ))}
-                                <td key={3}><button onClick={()=>handleRemove(index)}><FontAwesomeIcon icon={faUserMinus}/></button></td>
-                            </tr>
-                        ))}
-                        <tr>
-                            <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
-                            <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
-                            <td>
-                                <select id={"type"}>
-                                    <optgroup label="Type">
-                                        <option value={"Admin"}>Admin</option>
-                                        <option value={"Simple"}>Simple</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                            <td><button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button></td>
-                        </tr>
+                    ))}
+                    <tr>
+                        <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
+                        <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
+                        <td>
+                            <select id={"type"}>
+                                <optgroup label="Type">
+                                    <option value={"Admin"}>Admin</option>
+                                    <option value={"Simple"}>Simple</option>
+                                </optgroup>
+                            </select>
+                        </td>
+                        <td><button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button></td>
+                    </tr>
                     </tbody>
                 </table>
 
@@ -147,4 +146,4 @@ function SignupForm() {
     );
 }
 
-export default SignupForm
+export default Settings;

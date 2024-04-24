@@ -49,4 +49,24 @@ public class Network {
         }
         return n;
     }
+    public Boolean newNetwork(String ip,String sm,String type) throws SQLException{
+        DatabaseConnection db = new DatabaseConnection();
+        Connection con=db.connect();
+        Statement st=con.createStatement();
+        String query="INSERT INTO netview.network (NetworkIp,NetworkSm,Type) VALUES ("+ip+","+sm+","+type+");";
+        try{
+            st.executeUpdate(query);
+            query="SELECT * FROM netview.network WHERE(NetworkIp="+ip+" AND NetworkSm="+sm+" AND Type="+type+");";
+            ResultSet rs=st.executeQuery(query);
+            if(rs.next()){
+                int nwId=Integer.parseInt(rs.getString("NetworkId"));
+                query="INSERT INTO netview.users (Username,Password,Type,NetworkId) VALUES ('a','a','Owner',"+nwId+");";
+                st.executeUpdate(query);
+            }
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

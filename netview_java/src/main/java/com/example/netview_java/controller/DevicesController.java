@@ -1,5 +1,5 @@
 package com.example.netview_java.controller;
-import com.example.netview_java.model.Device;
+import com.example.netview_java.model.Devices;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class DevicesController {
     @CrossOrigin(origins = "*")
     @GetMapping("/api/devices")
     public ArrayList<String> network(@RequestParam String nwId) {
-        Device d=new Device(nwId);
+        Devices d=new Devices(nwId);
         try {
             ArrayList<String> a=d.getDevices();
             return a;

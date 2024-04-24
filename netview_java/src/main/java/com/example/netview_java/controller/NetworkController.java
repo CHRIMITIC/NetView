@@ -1,4 +1,5 @@
 package com.example.netview_java.controller;
+import com.example.netview_java.model.DeviceSettings;
 import com.example.netview_java.model.Network;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -26,5 +27,16 @@ public class NetworkController {
             e.printStackTrace();
         }
         return -1;
+    }
+    @CrossOrigin(origins = "*")
+    @GetMapping("/api/newNetwork")
+    public Boolean newNetwork(@RequestParam String ip, @RequestParam String sm, @RequestParam String type) {
+        Network network =new Network();
+        try{
+            return network.newNetwork(ip,sm,type);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Device {
+public class Devices {
     String nwId;
-    public Device(String nwId) {
+    public Devices(String nwId) {
         this.nwId = nwId;
     }
     public String getNwId() {
@@ -26,7 +26,7 @@ public class Device {
         String query="SELECT * FROM netview.devices WHERE(NetworkId="+nwId+");";
         ResultSet rs=st.executeQuery(query);
         while(rs.next()){
-            n=rs.getString("DeviceName")+";"+rs.getString("DeviceIp")+";"+rs.getString("DeviceSm")+";"+rs.getString("Type");
+            n=rs.getString("DeviceName")+";"+rs.getString("DeviceIp")+";"+rs.getString("DeviceSm")+";"+rs.getString("Type")+";"+Integer.toString(rs.getInt("AvailablePorts"));
             a.add(n);
         }
         return a;
