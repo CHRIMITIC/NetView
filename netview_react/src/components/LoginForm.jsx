@@ -3,6 +3,9 @@ import '../stylesheets/Login.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+
 
 function LoginForm() {
     const [username, setUsername] = useState('');
@@ -57,12 +60,12 @@ function LoginForm() {
                 <br/>
                 <div id="box">
                     <div id="check">
-                        <input type="checkbox" id="checkbox"/>
+                        <Checkbox id="checkbox" size="small"></Checkbox>
                         <label htmlFor="checkbox" id="label">Remind Me</label>
                     </div>
                     <a id="link" href="https://youtube.com">Forgot Password?</a>
                 </div>
-                <button type="submit" id="button">Login</button>
+                <Button variant="contained" type="submit" id="button">Login</Button>
             </form>
         </div>
     );

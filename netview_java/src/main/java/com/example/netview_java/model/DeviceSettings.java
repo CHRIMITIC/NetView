@@ -143,6 +143,3 @@ public class DeviceSettings {
         return false;
     }
 }
-
-
-//UPDATE `netview`.`devices` SET `DeviceName` = 'H2' WHERE (`DeviceName` = 'H1') and (`NetworkId` = '1');

@@ -19,6 +19,9 @@ function NavBarIcon({icon,label}) {
             case "Home":
                 navigate("/home");
                 break
+            case "Settings":
+                navigate("/settings");
+                break
             default:
                 return "";
         }
@@ -27,7 +30,6 @@ function NavBarIcon({icon,label}) {
         <div className="rounded-md text-sm font-semibold text-white bg-neutral-800 border-2 border-gray-200">
             <button onClick={handleClick}>
             <FontAwesomeIcon icon={icon}/>
-            {/*<span>{label}</span>*/}
             </button>
         </div>
     );

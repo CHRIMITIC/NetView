@@ -13,7 +13,7 @@ function NavBar() {
         <div className="flex flex-col items-center h-96 border-2 border-gray-200 float-left">
                 {icons.map((item,index)=>(
                     <div key={index}>
-                        <NavBarIcon icon={item.icon} label={item.label}></NavBarIcon>
+                        {(document.title==="Home")?(item.icon===faUser)?"":<NavBarIcon icon={item.icon} label={item.label}></NavBarIcon>:<NavBarIcon icon={item.icon} label={item.label}></NavBarIcon>}
                     </div>
                 ))}
         </div>

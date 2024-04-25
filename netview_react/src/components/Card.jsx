@@ -34,39 +34,32 @@ function Card({desc,page,i}) {
         }
     },[])
     const handleClick=(e)=>{
-        getPorts()
-        getRoutes()
+        getSpecs("ports")
+        getSpecs("routes")
         setAnchor(anchor ? null : e.currentTarget);
         if(page=="network"){
             Cookies.set("nwId",desc);
             navigate(`/${page}`)
         }
     }
-    const getPorts=async()=>  {
-        const url=`http://localhost:8080/api/ports?devName='${name}'&nwId='${Cookies.get("nwId")}'`;
+    const getSpecs=async(api)=>  {
+        const url=`http://localhost:8080/api/${api}?devName='${name}'&nwId='${Cookies.get("nwId")}'`;
         axios.get(url)
             .then(resp => {
-                setPorts(resp.data)
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-        });
-    }
-    const getRoutes=async()=>  {
-        const url=`http://localhost:8080/api/routes?devName='${name}'&nwId='${Cookies.get("nwId")}'`;
-        axios.get(url)
-            .then(resp => {
-                setRoutes(resp.data)
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-        });
-    }
-    const getProtocols=async()=>  {
-        const url=`http://localhost:8080/api/protocols?devName='${name}'&nwId='${Cookies.get("nwId")}'`;
-        axios.get(url)
-            .then(resp => {
-                setProtocols(resp.data)
+                switch (api){
+                    case "ports":
+                        setPorts(resp.data)
+                        break;
+                    case "routes":
+                        setRoutes(resp.data)
+                        break;
+                    case "protocols":
+                        setProtocols(resp.data)
+                        break;
+                    default:
+                        break;
+                }
+
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -155,7 +148,7 @@ function Card({desc,page,i}) {
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
-                });
+            });
         }
     }
     const icons=[
