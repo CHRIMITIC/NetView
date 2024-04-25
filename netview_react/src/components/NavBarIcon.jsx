@@ -1,4 +1,4 @@
-import {useEffect,useStatus} from 'react';
+import "../stylesheets/NavBar.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -27,11 +27,9 @@ function NavBarIcon({icon,label}) {
         }
     }
     return(
-        <div className="rounded-md text-sm font-semibold text-white bg-neutral-800 border-2 border-gray-200">
-            <button onClick={handleClick}>
-            <FontAwesomeIcon icon={icon}/>
-            </button>
-        </div>
+        <button onClick={handleClick} className={"navbar"}>
+            <FontAwesomeIcon icon={icon} className={"icon"}/>
+        </button>
     );
 }
 

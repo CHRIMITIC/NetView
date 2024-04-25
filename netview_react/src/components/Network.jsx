@@ -1,11 +1,9 @@
-import { faHome, faUser, faCog, faInfo, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheets/Home.css'
 import NavBar from "../components/NavBar.jsx";
 import CardContainer from "../components/CardContainer.jsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import NavBarIcon from "./NavBarIcon.jsx";
 function Network() {
     const nwId=Cookies.get("nwId");
     const [devices, setDevices] = useState([]);
@@ -18,12 +16,16 @@ function Network() {
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
-            });
+        });
     },[])
     return (
-        <div className="app-container h-full w-full">
-            <NavBar></NavBar>
-            <CardContainer list={devices} page={""}></CardContainer>
+        <div id={"div"}>
+            <div id={"navBar"}>
+                <NavBar></NavBar>
+            </div>
+            <div id={"cardsContainer"}>
+                <CardContainer id={"cardsContainer"} list={devices} page={""}></CardContainer>
+            </div>
         </div>
     );
 }

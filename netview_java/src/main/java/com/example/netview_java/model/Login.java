@@ -23,23 +23,25 @@ public class Login {
     public Boolean verifyCredentials() throws SQLException {
         DatabaseConnection db = new DatabaseConnection();
         Connection con=db.connect();
-        Statement st=con.createStatement();
-        String query="SELECT * FROM netview.users WHERE(Username="+username+" AND Password="+password+");";
-        ResultSet rs=st.executeQuery(query);
-        if(rs.next()){
-            if(username.contains("'")){
-                username=username.replaceAll("'","");
+        String query="SELECT * FROM netview.users WHERE Username=? AND Password=?";
+        PreparedStatement pstmt = con.prepareStatement(query);
+        pstmt.setString(1, username);
+        pstmt.setString(2, password);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            if (username.contains("'")) {
+                username = username.replaceAll("'", "");
             }
-            if(password.contains("'")){
-                password=password.replaceAll("'","");
+            if (password.contains("'")) {
+                password = password.replaceAll("'", "");
             }
-            if(username.equals(rs.getString("Username"))&&password.equals(rs.getString("Password"))){
+            if (username.equals(rs.getString("Username")) && password.equals(rs.getString("Password"))) {
                 db.disconnect();
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }

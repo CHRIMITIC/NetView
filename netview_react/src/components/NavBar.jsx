@@ -1,4 +1,4 @@
-import {useEffect,useStatus} from 'react';
+import "../stylesheets/NavBar.css"
 import NavBarIcon from "../components/NavBarIcon.jsx";
 import {faCog, faHome, faInfo, faSignOut, faUser} from "@fortawesome/free-solid-svg-icons";
 function NavBar() {
@@ -10,12 +10,12 @@ function NavBar() {
         { icon: faSignOut, label: 'Logout' }
     ];
     return(
-        <div className="flex flex-col items-center h-96 border-2 border-gray-200 float-left">
-                {icons.map((item,index)=>(
-                    <div key={index}>
-                        {(document.title==="Home")?(item.icon===faUser)?"":<NavBarIcon icon={item.icon} label={item.label}></NavBarIcon>:<NavBarIcon icon={item.icon} label={item.label}></NavBarIcon>}
-                    </div>
-                ))}
+        <div>
+            {icons.map((item,index)=>(
+                <div key={index}>
+                    {(document.title==="Home")?(item.icon===faUser || item.icon===faCog)?"":<NavBarIcon icon={item.icon} label={item.label}></NavBarIcon>:<NavBarIcon icon={item.icon} label={item.label}></NavBarIcon>}
+                </div>
+            ))}
         </div>
     );
 }

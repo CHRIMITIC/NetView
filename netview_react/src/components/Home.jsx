@@ -20,9 +20,13 @@ function Home() {
         });
     },[])
     return (
-        <div className="app-container h-full w-full">
-            <NavBar></NavBar>
-            <CardContainer list={networks} page={"network"}></CardContainer>
+        <div id={"div"}>
+            <div id={"navBar"}>
+                <NavBar></NavBar>
+            </div>
+            <div id={"cardsContainer"}>
+                <CardContainer id={"cardsContainer"} list={networks} page={"network"}></CardContainer>
+            </div>
         </div>
     );
 }

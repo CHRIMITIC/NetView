@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     @CrossOrigin(origins = "*")
     @PostMapping("/test")
-    public String test() {
-        return "working";
+    public String test(@RequestBody String[] requestData) {
+        return requestData[0]+requestData[1];
     }
     @CrossOrigin(origins = "*")
-    @GetMapping("/api/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        Login login=new Login(username, password);
+    @PostMapping("/api/login")
+    public String login(@RequestBody String[] data) {
+        Login login=new Login(data[0], data[1]);
         Boolean credentials=false;
         try{
             credentials=login.verifyCredentials();

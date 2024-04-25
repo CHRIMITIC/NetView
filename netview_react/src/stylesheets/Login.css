@@ -51,7 +51,9 @@ form{
   justify-content: center;
   text-align: center;
 }
-h2{
+#h2{
+  font-size: 24px;
+  font-weight: bold;
   background: transparent;
 }
 #username, #password{

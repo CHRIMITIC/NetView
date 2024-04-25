@@ -18,7 +18,7 @@ function Settings() {
         getSettings();
     },[]);
     const getSettings=()=>{
-        const url=`http://localhost:8080/api/settings?&nwId='${n}'`;
+        const url=`http://localhost:8080/api/settings?nwId='${n}'`;
         axios.get(url)
             .then(resp => {
                 setSettings(resp.data);
@@ -33,7 +33,7 @@ function Settings() {
     }
     return (
         <div>
-            <div className="app-container h-full w-full">
+            <div>
                 <NavBar></NavBar>
                 <table border="1">
                     <tbody>

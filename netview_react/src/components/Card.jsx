@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { styled } from '@mui/system';
 import axios from "axios";
-import {brown} from "@mui/material/colors";
 function Card({desc,page,i}) {
     const navigate=useNavigate();
     const [name,setName]=useState('');
@@ -37,7 +36,7 @@ function Card({desc,page,i}) {
         getSpecs("ports")
         getSpecs("routes")
         setAnchor(anchor ? null : e.currentTarget);
-        if(page=="network"){
+        if(page==="network"){
             Cookies.set("nwId",desc);
             navigate(`/${page}`)
         }
@@ -89,7 +88,6 @@ function Card({desc,page,i}) {
 
     }
     const newNetwork=async ()=>{
-        const nw=Cookies.get("nwId");
         const ipText=document.getElementById("NewIp "+i).value;
         const smText=document.getElementById("NewSm "+i).value;
         const typeText=document.getElementById("NewType "+i).value;
@@ -173,16 +171,16 @@ function Card({desc,page,i}) {
         `,
     );
     return (
-        <div>
-            <button id={i} className="text-black" onClick={handleClick}>
-                {(page==="network" || page==="newnetwork" || page==="newdevice") ? desc : name}
+        <div id={"container"}>
+            {/*{(page === "network" || page === "newnetwork" || page === "newdevice") ? desc : "Device " + name}*/}
+            <button className={"info"} id={i} onClick={handleClick}>
+                {(page === "network" || page === "newnetwork" || page === "newdevice") ? desc : "Device " + name}
             </button>
             <BasePopup id={i} open={open} anchor={anchor}>
                 <PopupBody>
-                    {(page==="")?
+                    {(page === "") ?
                         <div>
-                            <img
-                                src={(type === "Host") ? icons[0] : (type === "Router") ? icons[1] : (type === "Server") ? icons[2] : icons[3]}></img>
+                            <img className={"img"} src={(type === "Host") ? icons[0] : (type === "Router") ? icons[1] : (type === "Server") ? icons[2] : (type === "Switch") ? icons[3] : ""}/>
                             <input id={"nameText " + i} type="text" placeholder={name} defaultValue={name}/>
                             <input id={"ipText " + i} type="text" placeholder={ip} defaultValue={ip}/>
                             <input id={"smText " + i} type="text" placeholder={sm} defaultValue={sm}/>
@@ -195,13 +193,13 @@ function Card({desc,page,i}) {
                             {ports.map((item, index) => (
                                 <div key={index}>
                                     {item.map((l, ind) => (
-                                        (ind == 1) ?
+                                        (ind === 1) ?
                                             // <div key={ind}>
                                             <input key={ind} type="checkbox" id={"CheckBox " + index}
                                                    defaultChecked={(l === "Up")}></input>
                                             //     <label>{l}</label>
                                             // </div>
-                                            : (ind == 0) ?
+                                            : (ind === 0) ?
                                                 <input type={"text"} key={ind} id={"Pname " + index} defaultValue={l}/>
                                                 :
                                                 <input type={"text"} key={ind} id={"Pconn" + index} defaultValue={l}/>

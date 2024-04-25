@@ -11,6 +11,7 @@ function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loggedIn, setLoggedIn] = useState('');
+    const [response,setResponse]=useState('')
     const navigate=useNavigate();
     useEffect(()=>{
         if(Cookies.get('loggedIn')==="true") {
@@ -34,23 +35,30 @@ function LoginForm() {
     }, [loggedIn]);
     const handleLogin=async (e) => {
         e.preventDefault()
-        const url=`http://localhost:8080/api/login?username='${username}'&password='${password}'`;
-        axios.get(url)
-            .then(resp => {
-                setLoggedIn(resp.data);
-                if(!resp.data){
-                    alert("Not logged in");
-                }
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
+        const resp = await axios.post('http://localhost:8080/api/login', [username,password]);
+        setResponse(resp.data);
+        setLoggedIn(resp.data)
+        if(!resp.data){
+            alert("Not logged in");
+        }
+        // const url=`http://localhost:8080/api/login?username=${username}&password=${password}`;
+        // axios.get(url)
+        //     .then(resp => {
+        //         setLoggedIn(resp.data);
+        //         if(!resp.data){
+        //             alert("Not logged in");
+        //             console.log(resp)
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error('There was a problem with the fetch operation:', error);
+        //     });
     }
     return (
         <div id="Container">
             <form onSubmit={handleLogin}>
                 <div id="Login">
-                    <h2 className="bg-transparent font-bold text-2xl font-sans">Login</h2>
+                    <h2 id={"h2"}>LOGIN</h2>
                 </div>
                 <input type="text" placeholder="Username" id="username" value={username}
                        onChange={(e) => setUsername(e.target.value)}/>
@@ -63,7 +71,7 @@ function LoginForm() {
                         <Checkbox id="checkbox" size="small"></Checkbox>
                         <label htmlFor="checkbox" id="label">Remind Me</label>
                     </div>
-                    <a id="link" href="https://youtube.com">Forgot Password?</a>
+                    <a id="link" href="https://youtube.com" target="blank">Forgot Password?</a>
                 </div>
                 <Button variant="contained" type="submit" id="button">Login</Button>
             </form>

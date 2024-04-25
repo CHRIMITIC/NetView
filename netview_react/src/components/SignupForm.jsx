@@ -106,43 +106,40 @@ function SignupForm() {
     }
     return (
         <div>
-            <div className="app-container h-full w-full">
-                <NavBar></NavBar>
-                <table border="1">
-                    <tbody>
-                        <tr>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Type</th>
-                            <th>Remove</th>
+            <NavBar></NavBar>
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Type</th>
+                        <th>Remove</th>
+                    </tr>
+                    {users.map((item,index)=>(
+                        <tr key={index}>
+                            {item.map((l,i)=>(
+                                <td key={i}>
+                                    {l}
+                                </td>
+                            ))}
+                            <td key={3}><button onClick={()=>handleRemove(index)}><FontAwesomeIcon icon={faUserMinus}/></button></td>
                         </tr>
-                        {users.map((item,index)=>(
-                            <tr key={index}>
-                                {item.map((l,i)=>(
-                                    <td key={i}>
-                                        {l}
-                                    </td>
-                                ))}
-                                <td key={3}><button onClick={()=>handleRemove(index)}><FontAwesomeIcon icon={faUserMinus}/></button></td>
-                            </tr>
-                        ))}
-                        <tr>
-                            <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
-                            <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
-                            <td>
-                                <select id={"type"}>
-                                    <optgroup label="Type">
-                                        <option value={"Admin"}>Admin</option>
-                                        <option value={"Simple"}>Simple</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                            <td><button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
+                    ))}
+                    <tr>
+                        <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
+                        <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
+                        <td>
+                            <select id={"type"}>
+                                <optgroup label="Type">
+                                    <option value={"Admin"}>Admin</option>
+                                    <option value={"Simple"}>Simple</option>
+                                </optgroup>
+                            </select>
+                        </td>
+                        <td><button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     );
 }
