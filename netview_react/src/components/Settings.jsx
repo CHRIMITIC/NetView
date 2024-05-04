@@ -3,8 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import NavBar from "./NavBar.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUserMinus, faUserPlus} from "@fortawesome/free-solid-svg-icons";
-
+import {faUserPlus} from "@fortawesome/free-solid-svg-icons";
 function Settings() {
     const u=Cookies.get("username");
     const p=Cookies.get("password");
@@ -31,6 +30,7 @@ function Settings() {
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
+
     return (
         <div>
             <div>
@@ -67,7 +67,6 @@ function Settings() {
                     </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
     );
