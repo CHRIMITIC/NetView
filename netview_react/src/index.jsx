@@ -8,6 +8,7 @@ import Home from './components/Home.jsx'
 import Card from "./components/Card.jsx";
 import Network from "./components/Network.jsx";
 import Settings from "./components/Settings.jsx";
+import User from "./components/User.jsx";
 import Cookies from "js-cookie";
 
 const router=createBrowserRouter([
@@ -18,6 +19,10 @@ const router=createBrowserRouter([
     {
         path:"/home",
         element:<Home/>,
+    },
+    {
+        path:"/user",
+        element:<User/>,
     },
     {
         path:"/signup",

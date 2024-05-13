@@ -61,6 +61,17 @@ public class DeviceSettingsController {
         return null;
     }
     @CrossOrigin(origins = "*")
+    @GetMapping("/api/removePort")
+    public Boolean removePorts(@RequestParam String devName,@RequestParam String nwId, @RequestParam String pName, @RequestParam String pConn) {
+        DeviceSettings deviceSettings=new DeviceSettings(devName,nwId);
+        try{
+            return deviceSettings.removePort(pName, pConn);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @CrossOrigin(origins = "*")
     @GetMapping("/api/saveChanges")
     public Boolean saveChanges(@RequestParam String devName, @RequestParam String nwId, @RequestParam String newName, @RequestParam String newIp, @RequestParam String newSm, @RequestParam String newType) {
         DeviceSettings deviceSettings =new DeviceSettings(devName, nwId);

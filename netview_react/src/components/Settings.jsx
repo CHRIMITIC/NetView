@@ -33,8 +33,11 @@ function Settings() {
 
     return (
         <div>
-            <div>
+            <div id={"navBar"}>
                 <NavBar></NavBar>
+            </div>
+            <div id={"cardsContainer"}>
+
                 <table border="1">
                     <tbody>
                     <tr>
@@ -43,28 +46,15 @@ function Settings() {
                         <th>Type</th>
                         <th>Remove</th>
                     </tr>
-                    {settings.map((item,index)=>(
+                    {settings.map((item, index) => (
                         <tr key={index}>
-                            {item.map((l,i)=>(
+                            {item.map((l, i) => (
                                 <td key={i}>
                                     {l}
                                 </td>
                             ))}
                         </tr>
                     ))}
-                    <tr>
-                        <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
-                        <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
-                        <td>
-                            <select id={"type"}>
-                                <optgroup label="Type">
-                                    <option value={"Admin"}>Admin</option>
-                                    <option value={"Simple"}>Simple</option>
-                                </optgroup>
-                            </select>
-                        </td>
-                        <td><button><FontAwesomeIcon icon={faUserPlus}/></button></td>
-                    </tr>
                     </tbody>
                 </table>
             </div>

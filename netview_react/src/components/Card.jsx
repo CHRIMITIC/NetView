@@ -12,12 +12,14 @@ function Card({desc,page,i}) {
     const [ip,setIp]=useState('');
     const [sm,setSm]=useState('');
     const [type,setType]=useState('');
+    const [counter,setCounter]=useState(0);
     const [avPorts,setavPorts]=useState('');
     const [ports,setPorts]=useState([]);
     const [routes,setRoutes]=useState([])
     const [protocols,setProtocols]=useState([])
     const [anchor, setAnchor]=useState(null);
     const open= Boolean(anchor);
+    const t=Cookies.get("type");
     let list
     let flag=false
     useEffect(()=>{
@@ -35,6 +37,7 @@ function Card({desc,page,i}) {
     const handleClick=(e)=>{
         getSpecs("ports")
         getSpecs("routes")
+        // getSpecs("protocols")
         setAnchor(anchor ? null : e.currentTarget);
         if(page==="network"){
             Cookies.set("nwId",desc);
@@ -85,7 +88,6 @@ function Card({desc,page,i}) {
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
         });
-
     }
     const newNetwork=async ()=>{
         const ipText=document.getElementById("NewIp "+i).value;
@@ -128,8 +130,8 @@ function Card({desc,page,i}) {
             });
     }
     const newPort=async ()=>{
-        if(avPorts==0){
-            alert("No more available ports")
+        if(avPorts==0 || document.getElementById("portText "+i).value==""){
+            alert("Error")
         }else{
             const nw=Cookies.get("nwId");
             const newPort=document.getElementById("portText " + i).value
@@ -148,6 +150,26 @@ function Card({desc,page,i}) {
                     console.error('There was a problem with the fetch operation:', error);
             });
         }
+    }
+    const removePort=async (ind)=>{
+        const nw=Cookies.get("nwId");
+        const pName=document.getElementById("Pname " + ind).value
+        const pConn=document.getElementById("Pconn " + ind).value
+        const url=`http://localhost:8080/api/removePort?devName='${name}'&nwId='${nw}'&pName='${pName}'&pConn='${pConn}'`;
+        axios.get(url)
+            .then(resp => {
+                console.log(resp);
+                if(!resp.data){
+                    alert("Operation failed")
+                }else{
+                    if(Cookies.get("check")==="true"){
+                        location.reload()
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+        });
     }
     const icons=[
         "./src/assets/Pc.png",
@@ -172,86 +194,171 @@ function Card({desc,page,i}) {
     );
     return (
         <div id={"container"}>
-            {/*{(page === "network" || page === "newnetwork" || page === "newdevice") ? desc : "Device " + name}*/}
-            <button className={"info"} id={i} onClick={handleClick}>
-                {(page === "network" || page === "newnetwork" || page === "newdevice") ? desc : "Device " + name}
-            </button>
+            {(t === "Simple") ?
+                (page === "newnetwork" || page === "newdevice") ?
+                    <button className={"info"} id={i} onClick={handleClick} disabled>
+                        {desc}
+                    </button>
+                :
+                    <button className={"info"} id={i} onClick={handleClick}>
+                        {(page === "network")?desc:"Device " + name}
+                    </button>
+            :
+                <button className={"info"} id={i} onClick={handleClick}>
+                    {(page === "network" || page === "newnetwork" || page === "newdevice") ? desc : "Device " + name}
+                </button>
+            }
             <BasePopup id={i} open={open} anchor={anchor}>
                 <PopupBody>
-                    {(page === "") ?
-                        <div>
-                            <img className={"img"} src={(type === "Host") ? icons[0] : (type === "Router") ? icons[1] : (type === "Server") ? icons[2] : (type === "Switch") ? icons[3] : ""}/>
-                            <input id={"nameText " + i} type="text" placeholder={name} defaultValue={name}/>
-                            <input id={"ipText " + i} type="text" placeholder={ip} defaultValue={ip}/>
-                            <input id={"smText " + i} type="text" placeholder={sm} defaultValue={sm}/>
-                            <input id={"typeText " + i} type="text" placeholder={type} defaultValue={type}/>
-                            <label>{avPorts}</label>
-                            <br/>
-                            <input id={"portText " + i} type="text" placeholder={"New Port"}/>
-                            <button onClick={newPort}>+</button>
-                            <br/>
-                            {ports.map((item, index) => (
-                                <div key={index}>
-                                    {item.map((l, ind) => (
-                                        (ind === 1) ?
-                                            // <div key={ind}>
-                                            <input key={ind} type="checkbox" id={"CheckBox " + index}
-                                                   defaultChecked={(l === "Up")}></input>
-                                            //     <label>{l}</label>
-                                            // </div>
-                                            : (ind === 0) ?
-                                                <input type={"text"} key={ind} id={"Pname " + index} defaultValue={l}/>
-                                                :
-                                                <input type={"text"} key={ind} id={"Pconn" + index} defaultValue={l}/>
-
-                                    ))}
+                    {(t === "Simple") ?
+                        (page === "") ?
+                            <div>
+                                <img className={"img"} src={(type === "Host") ? icons[0] : (type === "Router") ? icons[1] : (type === "Server") ? icons[2] : (type === "Switch") ? icons[3] : ""}/>
+                                <input id={"nameText " + i} type="text" disabled placeholder={name} defaultValue={name}/>
+                                <input id={"ipText " + i} type="text" disabled placeholder={ip} defaultValue={ip}/>
+                                <input id={"smText " + i} type="text" disabled placeholder={sm} defaultValue={sm}/>
+                                <input id={"typeText " + i} type="text" disabled placeholder={type} defaultValue={type}/>
+                                <label>{avPorts}</label>
+                                <br/>
+                                <input id={"portText " + i} type="text" disabled placeholder={"New Port"}/>
+                                <button onClick={newPort} disabled>+</button>
+                                <br/>
+                                {ports.map((item, index) => (
+                                    <div key={index}>
+                                        {item.map((l, ind) => (
+                                            (ind === 1) ?
+                                                <input key={ind} type="checkbox" disabled id={"CheckBox " + index}
+                                                       defaultChecked={(l === "Up")}></input>
+                                                : (ind === 0) ?
+                                                    <input type={"text"} key={ind} disabled id={"Pname " + index} defaultValue={l}/>
+                                                    :
+                                                    <input type={"text"} key={ind} disabled id={"Pconn " + index} defaultValue={l}/>
+                                        ))}
+                                        <button onClick={()=>removePort(index)} disabled>-----</button>
+                                    </div>
+                                ))}
+                                <br/>
+                                {(type === "Router") ?
+                                    routes.map((item, index) => (
+                                        <div key={index}>
+                                            <input type={"text"} disabled id={"Route " + index} defaultValue={item}/>
+                                        </div>
+                                    )) : ""
+                                }
+                                {(type === "Server") ?
+                                    protocols.map((item, index) => (
+                                        <div key={index}>
+                                            <input type={"text"} disabled id={"Route " + index} defaultValue={item}/>
+                                            {/*<button disabled>*/}
+                                            {/*    {item}*/}
+                                            {/*</button>*/}
+                                            <br/>
+                                        </div>
+                                    )) : ""
+                                }
+                                <button onClick={saveSpecs} disabled>Save</button>
+                            </div>
+                            : (page === "newnetwork") ?
+                                <div>
+                                    <input id={"NewIp " + i} type="text" placeholder={"NetworkIp"}/>
+                                    <input id={"NewSm " + i} type="text" placeholder={"NetworkSm"}/>
+                                    <select id={"NewType " + i}>
+                                        <option value={"Physical"}>Physical</option>
+                                        <option value={"Vlan"}>Vlan</option>
+                                    </select>
+                                    <br/>
+                                    <button onClick={newNetwork}>Save</button>
                                 </div>
-                            ))}
-                            <br/>
-                            {(type === "Router") ?
-                                routes.map((item, index) => (
-                                    <div key={index}>
-                                        <input type={"text"} id={"Route " + index} defaultValue={item}/>
-                                    </div>
-                                )) : ""
-                            }
-                            {(type === "Server") ?
-                                protocols.map((item, index) => (
-                                    <div key={index}>
-                                        <button>
-                                            {item}
-                                        </button>
-                                        <br/>
-                                    </div>
-                                )) : ""
-                            }
-                            <button onClick={saveSpecs}>Save</button>
-                        </div>
-                        : (page === "newnetwork") ?
+                                :
+                                <div>
+                                    <input id={"NewName " + i} type="text" placeholder={"DeviceName"}/>
+                                    <input id={"NewIp " + i} type="text" placeholder={"DeviceIp"}/>
+                                    <input id={"NewSm " + i} type="text" placeholder={"DeviceSm"}/>
+                                    <select id={"NewType " + i}>
+                                        <option value={"Host"}>Host</option>
+                                        <option value={"Router"}>Router</option>
+                                        <option value={"Server"}>Server</option>
+                                        <option value={"Switch"}>Switch</option>
+                                    </select>
+                                    <br/>
+                                    <button onClick={newDevice}>Save</button>
+                                </div>
+                        :
+                        (page === "") ?
                             <div>
-                                <input id={"NewIp " + i} type="text" placeholder={"NetworkIp"}/>
-                                <input id={"NewSm " + i} type="text" placeholder={"NetworkSm"}/>
-                                <select id={"NewType " + i}>
-                                    <option value={"Physical"}>Physical</option>
-                                    <option value={"Vlan"}>Vlan</option>
-                                </select>
+                                <img className={"img"} src={(type === "Host") ? icons[0] : (type === "Router") ? icons[1] : (type === "Server") ? icons[2] : (type === "Switch") ? icons[3] : ""}/>
+                                <input id={"nameText " + i} type="text" placeholder={name} defaultValue={name}/>
+                                <input id={"ipText " + i} type="text" placeholder={ip} defaultValue={ip}/>
+                                <input id={"smText " + i} type="text" placeholder={sm} defaultValue={sm}/>
+                                <input id={"typeText " + i} type="text" placeholder={type} defaultValue={type}/>
+                                <label>{avPorts}</label>
                                 <br/>
-                                <button onClick={newNetwork}>Save</button>
-                            </div>
-                            :
-                            <div>
-                                <input id={"NewName " + i} type="text" placeholder={"DeviceName"}/>
-                                <input id={"NewIp " + i} type="text" placeholder={"DeviceIp"}/>
-                                <input id={"NewSm " + i} type="text" placeholder={"DeviceSm"}/>
-                                <select id={"NewType " + i}>
-                                    <option value={"Host"}>Host</option>
-                                    <option value={"Router"}>Router</option>
-                                    <option value={"Server"}>Server</option>
-                                    <option value={"Switch"}>Switch</option>
-                                </select>
+                                <input id={"portText " + i} type="text" placeholder={"New Port"}/>
+                                <button onClick={newPort}>+</button>
                                 <br/>
-                                <button onClick={newDevice}>Save</button>
+                                {ports.map((item, index) => (
+                                    <div key={index}>
+                                        {item.map((l, ind) => (
+                                            (ind === 1) ?
+                                                // <div key={ind}>
+                                                <input key={ind} type="checkbox" id={"CheckBox " + index}
+                                                       defaultChecked={(l === "Up")}></input>
+                                                //     <label>{l}</label>
+                                                // </div>
+                                                : (ind === 0) ?
+                                                    <input type={"text"} key={ind} id={"Pname " + index} defaultValue={l}/>
+                                                    :
+                                                    <input type={"text"} key={ind} id={"Pconn " + index} defaultValue={l}/>
+                                        ))}
+                                        <button onClick={()=>removePort(index)}>-----</button>
+                                    </div>
+                                ))}
+                                <br/>
+                                {(type === "Router") ?
+                                    routes.map((item, index) => (
+                                        <div key={index}>
+                                            <input type={"text"} id={"Route " + index} defaultValue={item}/>
+                                        </div>
+                                    )) : ""
+                                }
+                                {(type === "Server") ?
+                                    protocols.map((item, index) => (
+                                        <div key={index}>
+                                            <input type={"text"} id={"Route " + index} defaultValue={item}/>
+                                            {/*<button>*/}
+                                            {/*    {item}*/}
+                                            {/*</button>*/}
+                                            <br/>
+                                        </div>
+                                    )) : ""
+                                }
+                                <button onClick={saveSpecs}>Save</button>
                             </div>
+                            : (page === "newnetwork") ?
+                                <div>
+                                    <input id={"NewIp " + i} type="text" placeholder={"NetworkIp"}/>
+                                    <input id={"NewSm " + i} type="text" placeholder={"NetworkSm"}/>
+                                    <select id={"NewType " + i}>
+                                        <option value={"Physical"}>Physical</option>
+                                        <option value={"Vlan"}>Vlan</option>
+                                    </select>
+                                    <br/>
+                                    <button onClick={newNetwork}>Save</button>
+                                </div>
+                                :
+                                <div>
+                                    <input id={"NewName " + i} type="text" placeholder={"DeviceName"}/>
+                                    <input id={"NewIp " + i} type="text" placeholder={"DeviceIp"}/>
+                                    <input id={"NewSm " + i} type="text" placeholder={"DeviceSm"}/>
+                                    <select id={"NewType " + i}>
+                                        <option value={"Host"}>Host</option>
+                                        <option value={"Router"}>Router</option>
+                                        <option value={"Server"}>Server</option>
+                                        <option value={"Switch"}>Switch</option>
+                                    </select>
+                                    <br/>
+                                    <button onClick={newDevice}>Save</button>
+                                </div>
                     }
                 </PopupBody>
             </BasePopup>

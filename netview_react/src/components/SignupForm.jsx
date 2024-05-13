@@ -1,3 +1,4 @@
+import React from 'react'
 import {useEffect, useState} from 'react'
 import '../stylesheets/Signup.css'
 import axios from "axios";
@@ -10,10 +11,7 @@ function SignupForm() {
     const u=Cookies.get("username");
     const p=Cookies.get("password");
     const n=Cookies.get("nwId");
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [nwId, setNwId] = useState('');
-    const [type, setType] = useState('');
+    const t=Cookies.get("type");
     const [users, setUsers] = useState([]);
     useEffect(()=>{
         getUsers();
@@ -105,41 +103,108 @@ function SignupForm() {
             });
     }
     return (
-        <div>
-            <NavBar></NavBar>
-            <table border="1">
-                <tbody>
-                    <tr>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Type</th>
-                        <th>Remove</th>
-                    </tr>
-                    {users.map((item,index)=>(
-                        <tr key={index}>
-                            {item.map((l,i)=>(
-                                <td key={i}>
-                                    {l}
-                                </td>
+        <div id={"div"}>
+            <div id={"navBar"}>
+                <NavBar></NavBar>
+            </div>
+            <div id={"cardsContainer"}>
+                <table border="1">
+                    {t == ("Simple") ?
+                        <tbody>
+                            <tr>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Type</th>
+                            </tr>
+                            {users.map((item, index) => (
+                                <tr key={index}>
+                                    {item.map((l, i) => (
+                                        <td key={i}>
+                                            {l}
+                                        </td>
+                                    ))}
+                                </tr>
                             ))}
-                            <td key={3}><button onClick={()=>handleRemove(index)}><FontAwesomeIcon icon={faUserMinus}/></button></td>
-                        </tr>
-                    ))}
-                    <tr>
-                        <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
-                        <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
-                        <td>
-                            <select id={"type"}>
-                                <optgroup label="Type">
-                                    <option value={"Admin"}>Admin</option>
-                                    <option value={"Simple"}>Simple</option>
-                                </optgroup>
-                            </select>
-                        </td>
-                        <td><button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button></td>
-                    </tr>
-                </tbody>
-            </table>
+                        </tbody>
+                    : (t == "Admin") ?
+                        <tbody>
+                            <tr>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Type</th>
+                                <th>Remove</th>
+                            </tr>
+                            {users.map((item, index) =>
+                                <tr key={index}>
+                                    {item.map((l, i) =>(
+                                        <React.Fragment key={i}>
+                                            <td>{l}</td>
+                                            {(i === 2 && (l !== "Admin" && l !== "Owner")) &&
+                                                <td key={3}>
+                                                    <button onClick={() => handleRemove(index)}>
+                                                        <FontAwesomeIcon icon={faUserMinus}/>
+                                                    </button>
+                                                </td>
+                                            }
+                                        </React.Fragment>
+                                    ))}
+                                </tr>
+                            )}
+                            <tr>
+                                <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
+                                <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
+                                <td>
+                                    <select id={"type"}>
+                                        <optgroup label="Type">
+                                            <option value={"Simple"}>Simple</option>
+                                        </optgroup>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        :
+                        <tbody>
+                            <tr>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Type</th>
+                                <th>Remove</th>
+                            </tr>
+                            {users.map((item, index) => (
+                                <tr key={index}>
+                                    {item.map((l, i) => (
+                                        <td key={i}>
+                                            {l}
+                                        </td>
+                                    ))}
+                                    <td key={3}>
+                                        <button onClick={() => handleRemove(index)}><FontAwesomeIcon
+                                            icon={faUserMinus}/></button>
+                                    </td>
+                                </tr>
+                            ))}
+                            <tr>
+                                <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
+                                <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
+                                <td>
+                                    <select id={"type"}>
+                                        <optgroup label="Type">
+                                            <option value={"Admin"}>Admin</option>
+                                            <option value={"Simple"}>Simple</option>
+                                        </optgroup>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button onClick={handleAdd}><FontAwesomeIcon icon={faUserPlus}/></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
         </div>
     );
 }

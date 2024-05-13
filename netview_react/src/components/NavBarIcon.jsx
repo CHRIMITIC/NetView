@@ -13,6 +13,9 @@ function NavBarIcon({icon,label}) {
                 Cookies.set("check","false");
                 navigate("/");
                 break;
+            case "User":
+                navigate("/user");
+                break;
             case "SignUp":
                 navigate("/signup");
                 break;

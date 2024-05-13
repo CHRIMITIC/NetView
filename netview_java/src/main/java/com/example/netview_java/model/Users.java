@@ -1,9 +1,6 @@
 package com.example.netview_java.model;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Users {
@@ -46,6 +43,20 @@ public class Users {
             s[1]=rs.getString("Password");
             s[2]=rs.getString("Type");
             a.add(s);
+        }
+        return a;
+    }
+    public String getUserType() throws SQLException {
+        String a="";
+        DatabaseConnection db = new DatabaseConnection();
+        Connection con=db.connect();
+        String query="SELECT * FROM netview.users WHERE(NetworkId=? AND Username=?);";
+        PreparedStatement pstmt = con.prepareStatement(query);
+        pstmt.setInt(1, Integer.parseInt(nwId));
+        pstmt.setString(2, username);
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next()){
+            a=rs.getString("Type");
         }
         return a;
     }

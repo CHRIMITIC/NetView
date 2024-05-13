@@ -16,4 +16,15 @@ public class UsersController {
         }
         return null;
     }
+    @CrossOrigin(origins = "*")
+    @PostMapping("/api/user")
+    public String user(@RequestBody String[] data) {
+        Users user=new Users(data[0],data[1],data[2]);
+        try {
+            return user.getUserType();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -1,59 +1,54 @@
-import {useEffect,useState} from 'react'
-import '../stylesheets/Login.css'
+import { useEffect, useState } from 'react';
+import '../stylesheets/Login.css';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // State to manage password visibility
     const [loggedIn, setLoggedIn] = useState('');
-    const [response,setResponse]=useState('')
-    const navigate=useNavigate();
-    useEffect(()=>{
-        if(Cookies.get('loggedIn')==="true") {
+    const [response, setResponse] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (Cookies.get('loggedIn') === "true") {
             setLoggedIn(true);
-        }else{
+        } else {
             setLoggedIn(false);
         }
-    },[])
+    }, []);
+
     useEffect(() => {
-        if(loggedIn){
-            if(document.getElementById("checkbox").checked){
-                Cookies.set("check","true")
-            }else{
-                Cookies.set("check","false")
+        if (loggedIn) {
+            if (document.getElementById("checkbox").checked) {
+                Cookies.set("check", "true")
+            } else {
+                Cookies.set("check", "false")
             }
-            Cookies.set("username",username);
-            Cookies.set("password",password);
-            Cookies.set("loggedIn",loggedIn.toString());
+            Cookies.set("username", username);
+            Cookies.set("password", password);
+            Cookies.set("loggedIn", loggedIn.toString());
             navigate("/home");
         }
     }, [loggedIn]);
-    const handleLogin=async (e) => {
-        e.preventDefault()
-        const resp = await axios.post('http://localhost:8080/api/login', [username,password]);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const resp = await axios.post('http://localhost:8080/api/login', [username, password]);
         setResponse(resp.data);
-        setLoggedIn(resp.data)
-        if(!resp.data){
+        if (!resp.data) {
             alert("Not logged in");
         }
-        // const url=`http://localhost:8080/api/login?username=${username}&password=${password}`;
-        // axios.get(url)
-        //     .then(resp => {
-        //         setLoggedIn(resp.data);
-        //         if(!resp.data){
-        //             alert("Not logged in");
-        //             console.log(resp)
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('There was a problem with the fetch operation:', error);
-        //     });
-    }
+        setLoggedIn(resp.data);
+    };
+
     return (
         <div id="Container">
             <form onSubmit={handleLogin}>
@@ -63,8 +58,17 @@ function LoginForm() {
                 <input type="text" placeholder="Username" id="username" value={username}
                        onChange={(e) => setUsername(e.target.value)}/>
                 <br/>
-                <input type="password" placeholder="Password" id="password" value={password}
-                       onChange={(e) => setPassword(e.target.value)}/>
+                <div style={{width:'100%'}}>
+                    <input type={showPassword ? 'text' : 'password'} placeholder="Password" id="password"
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}/>
+                    <br/>
+                    <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+                    </IconButton>
+                </div>
                 <br/>
                 <div id="box">
                     <div id="check">
@@ -79,4 +83,4 @@ function LoginForm() {
     );
 }
 
-export default LoginForm
+export default LoginForm;
