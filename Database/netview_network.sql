@@ -27,8 +27,9 @@ CREATE TABLE `network` (
   `NetworkIp` varchar(50) NOT NULL,
   `NetworkSm` varchar(50) NOT NULL,
   `Type` enum('Physical','Vlan') NOT NULL,
-  PRIMARY KEY (`NetworkId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`NetworkIp`),
+  UNIQUE KEY `NetworkId_UNIQUE` (`NetworkId`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +38,7 @@ CREATE TABLE `network` (
 
 LOCK TABLES `network` WRITE;
 /*!40000 ALTER TABLE `network` DISABLE KEYS */;
-INSERT INTO `network` VALUES (1,'192.168.1.0','255.255.255.0','Physical'),(2,'a','a','Vlan');
+INSERT INTO `network` VALUES (4,'1','1','Physical'),(7,'10','10','Physical'),(1,'192.168.1.0','255.255.255.0','Physical'),(2,'a','a','Vlan');
 /*!40000 ALTER TABLE `network` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-17 17:10:25
+-- Dump completed on 2024-05-13 21:03:08

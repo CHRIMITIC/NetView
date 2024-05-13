@@ -16,34 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ports`
+-- Table structure for table `protocolmngmt`
 --
 
-DROP TABLE IF EXISTS `ports`;
+DROP TABLE IF EXISTS `protocolmngmt`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ports` (
-  `PortId` int(11) NOT NULL AUTO_INCREMENT,
-  `PortName` varchar(45) NOT NULL,
-  `Status` enum('Up','Down') NOT NULL DEFAULT 'Down',
+CREATE TABLE `protocolmngmt` (
+  `PM_Id` int(11) NOT NULL AUTO_INCREMENT,
   `DeviceId` int(11) NOT NULL,
-  `ConnectedPort` int(11) DEFAULT NULL,
-  PRIMARY KEY (`DeviceId`,`PortName`),
-  UNIQUE KEY `PortId` (`PortId`),
-  KEY `ConPort` (`ConnectedPort`),
-  CONSTRAINT `ConPort` FOREIGN KEY (`ConnectedPort`) REFERENCES `ports` (`PortId`),
-  CONSTRAINT `DevId` FOREIGN KEY (`DeviceId`) REFERENCES `devices` (`DeviceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Port` int(11) NOT NULL,
+  PRIMARY KEY (`PM_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ports`
+-- Dumping data for table `protocolmngmt`
 --
 
-LOCK TABLES `ports` WRITE;
-/*!40000 ALTER TABLE `ports` DISABLE KEYS */;
-INSERT INTO `ports` VALUES (1,'Fa1','Up',3,22),(22,'Fa0','Down',6,1);
-/*!40000 ALTER TABLE `ports` ENABLE KEYS */;
+LOCK TABLES `protocolmngmt` WRITE;
+/*!40000 ALTER TABLE `protocolmngmt` DISABLE KEYS */;
+INSERT INTO `protocolmngmt` VALUES (1,5,80);
+/*!40000 ALTER TABLE `protocolmngmt` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

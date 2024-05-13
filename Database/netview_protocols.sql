@@ -25,13 +25,13 @@ DROP TABLE IF EXISTS `protocols`;
 CREATE TABLE `protocols` (
   `ProtocolId` int(11) NOT NULL AUTO_INCREMENT,
   `Port` int(11) NOT NULL,
+  `Status` enum('On','Off') NOT NULL DEFAULT 'Off',
   `DeviceId` int(11) NOT NULL,
   PRIMARY KEY (`Port`),
   UNIQUE KEY `ProtocolId` (`ProtocolId`),
   KEY `Device_Id` (`DeviceId`),
-  CONSTRAINT `Device_Id` FOREIGN KEY (`DeviceId`) REFERENCES `devices` (`DeviceId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `Port` FOREIGN KEY (`Port`) REFERENCES `ports` (`PortId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `Device_Id` FOREIGN KEY (`DeviceId`) REFERENCES `devices` (`DeviceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `protocols` (
 
 LOCK TABLES `protocols` WRITE;
 /*!40000 ALTER TABLE `protocols` DISABLE KEYS */;
+INSERT INTO `protocols` VALUES (2,80,'On',5);
 /*!40000 ALTER TABLE `protocols` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-17 17:10:25
+-- Dump completed on 2024-05-13 21:03:08

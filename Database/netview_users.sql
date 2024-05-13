@@ -26,12 +26,13 @@ CREATE TABLE `users` (
   `UserId` int(11) NOT NULL AUTO_INCREMENT,
   `Username` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  `Type` enum('Admin','Simple') NOT NULL DEFAULT 'Admin',
+  `Type` enum('Owner','Admin','Simple') NOT NULL,
   `NetworkId` int(11) NOT NULL,
-  PRIMARY KEY (`UserId`),
+  PRIMARY KEY (`Username`,`NetworkId`),
+  UNIQUE KEY `UserId_UNIQUE` (`UserId`),
   KEY `Nw_Id` (`NetworkId`),
   CONSTRAINT `Nw_Id` FOREIGN KEY (`NetworkId`) REFERENCES `network` (`NetworkId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +41,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'a','a','Owner',1),(14,'a','a','Owner',2),(15,'a','a','Owner',4),(16,'a','a','Owner',7),(7,'b','b','Admin',2),(18,'chrimitic','chrimitic','Simple',1),(6,'paride','hoxha','Admin',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-17 17:10:24
+-- Dump completed on 2024-05-13 21:03:08

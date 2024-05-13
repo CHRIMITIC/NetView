@@ -27,13 +27,14 @@ CREATE TABLE `devices` (
   `DeviceName` varchar(50) NOT NULL,
   `DeviceIp` varchar(50) NOT NULL,
   `DeviceSm` varchar(50) NOT NULL,
-  `Type` enum('Router','Switch','Server','Host') NOT NULL DEFAULT 'Host',
+  `Type` enum('Router','Switch','Server','Host') NOT NULL,
+  `AvailablePorts` int(11) NOT NULL DEFAULT 10,
   `NetworkId` int(11) NOT NULL,
-  PRIMARY KEY (`DeviceName`,`NetworkId`),
+  PRIMARY KEY (`DeviceName`,`DeviceIp`,`NetworkId`),
   UNIQUE KEY `DeviceId` (`DeviceId`),
   KEY `NwId` (`NetworkId`),
   CONSTRAINT `NwId` FOREIGN KEY (`NetworkId`) REFERENCES `network` (`NetworkId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +43,7 @@ CREATE TABLE `devices` (
 
 LOCK TABLES `devices` WRITE;
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
-INSERT INTO `devices` VALUES (0,'R0','192.168.1.1','255.255.255.0','Router',1),(1,'R0','a','a','Router',2);
+INSERT INTO `devices` VALUES (6,'a','a','a','Host',5,1),(3,'H1','123','123','Host',10,1),(0,'R0','192.168.1.1','255.255.255.0','Router',12,1),(1,'R0','a','a','Router',10,2),(5,'S1','b','b','Server',10,1),(4,'SW1','a','a','Switch',10,1);
 /*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-17 17:10:25
+-- Dump completed on 2024-05-13 21:03:08
