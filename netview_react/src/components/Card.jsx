@@ -15,7 +15,9 @@ function Card({desc,page,i}) {
     const [counter,setCounter]=useState(0);
     const [avPorts,setavPorts]=useState('');
     const [ports,setPorts]=useState([]);
+    const [initialPorts,setInitialPorts]=useState([]);
     const [routes,setRoutes]=useState([])
+    const [initialRoutes,setinitialRoutes]=useState([])
     const [protocols,setProtocols]=useState([])
     const [anchor, setAnchor]=useState(null);
     const open= Boolean(anchor);
@@ -51,9 +53,11 @@ function Card({desc,page,i}) {
                 switch (api){
                     case "ports":
                         setPorts(resp.data)
+                        setInitialPorts(resp.data)
                         break;
                     case "routes":
                         setRoutes(resp.data)
+                        setinitialRoutes(resp.data)
                         break;
                     case "protocols":
                         setProtocols(resp.data)
@@ -74,7 +78,9 @@ function Card({desc,page,i}) {
         const ipText=document.getElementById("ipText "+i).value;
         const smText=document.getElementById("smText "+i).value;
         const typeText=document.getElementById("typeText "+i).value;
-        const url=`http://localhost:8080/api/saveChanges?devName='${n}'&nwId='${nw}'&newName='${nameText}'&newIp='${ipText}'&newSm='${smText}'&newType='${typeText}'`;
+        // console.table(ports)
+        const url=`http://localhost:8080/api/saveChanges?devName='${n}'&nwId='${nw}'&newName='${nameText}'&newIp='${ipText}'&newSm='${smText}'&newPorts='${ports}'&oldPorts='${initialPorts}'&newRoutes='${routes}'&oldRoutes='${initialRoutes}'`;
+        console.log(url)
         axios.get(url)
             .then(resp => {
                 if(!resp.data){
@@ -300,15 +306,11 @@ function Card({desc,page,i}) {
                                     <div key={index}>
                                         {item.map((l, ind) => (
                                             (ind === 1) ?
-                                                // <div key={ind}>
-                                                <input key={ind} type="checkbox" id={"CheckBox " + index}
-                                                       defaultChecked={(l === "Up")}></input>
-                                                //     <label>{l}</label>
-                                                // </div>
+                                                <input key={ind} type="checkbox" id={"CheckBox " + index} defaultChecked={(l === "Up")} onChange={(e) => ports[index][1]=(e.target.checked)?"Up":"Down"}></input>
                                                 : (ind === 0) ?
-                                                    <input type={"text"} key={ind} id={"Pname " + index} defaultValue={l}/>
+                                                    <input type={"text"} key={ind} id={"Pname " + index} defaultValue={l} onChange={(e) => ports[index][0]=e.target.value}/>
                                                     :
-                                                    <input type={"text"} key={ind} id={"Pconn " + index} defaultValue={l}/>
+                                                    <input type={"text"} key={ind} id={"Pconn " + index} defaultValue={l} onChange={(e) => ports[index][2]=e.target.value}/>
                                         ))}
                                         <button onClick={()=>removePort(index)}>-----</button>
                                     </div>
@@ -317,7 +319,7 @@ function Card({desc,page,i}) {
                                 {(type === "Router") ?
                                     routes.map((item, index) => (
                                         <div key={index}>
-                                            <input type={"text"} id={"Route " + index} defaultValue={item}/>
+                                            <input type={"text"} id={"Route " + index} defaultValue={item} onChange={(e) => item=e.target.value}/>
                                         </div>
                                     )) : ""
                                 }

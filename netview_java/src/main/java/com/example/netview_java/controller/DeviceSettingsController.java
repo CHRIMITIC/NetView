@@ -73,10 +73,11 @@ public class DeviceSettingsController {
     }
     @CrossOrigin(origins = "*")
     @GetMapping("/api/saveChanges")
-    public Boolean saveChanges(@RequestParam String devName, @RequestParam String nwId, @RequestParam String newName, @RequestParam String newIp, @RequestParam String newSm, @RequestParam String newType) {
+    public Boolean saveChanges(@RequestParam String devName, @RequestParam String nwId, @RequestParam String newName, @RequestParam String newIp, @RequestParam String newSm, @RequestParam ArrayList<String[]> newPorts, @RequestParam ArrayList<String[]> oldPorts, @RequestParam ArrayList<String> newRoutes, @RequestParam ArrayList<String> oldRoutes) {
         DeviceSettings deviceSettings =new DeviceSettings(devName, nwId);
+        
         try{
-            return deviceSettings.saveChanges(newName,newIp,newSm,newType);
+            return deviceSettings.saveChanges(newName,newIp,newSm,newPorts,oldPorts,newRoutes,oldRoutes);
         }catch(Exception e){
             e.printStackTrace();
         }

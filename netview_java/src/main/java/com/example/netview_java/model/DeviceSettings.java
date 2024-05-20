@@ -186,14 +186,36 @@ public class DeviceSettings {
         }
         return false;
     }
-    public Boolean saveChanges(String nN,String nI,String nS,String nT) throws SQLException {
+    public Boolean saveChanges(String nN,String nI,String nS,ArrayList<String[]> nP,ArrayList<String[]> oP, ArrayList<String> nR, ArrayList<String> oR) throws SQLException {
         DatabaseConnection db = new DatabaseConnection();
         Connection con=db.connect();
         Statement st=con.createStatement();
-        String query="UPDATE netview.devices SET DeviceName = "+nN+", DeviceIp="+nI+", DeviceSm="+nS+",Type="+nT+" WHERE (DeviceName="+devName+") and (NetworkId="+nwId+");";
+        String query="SELECT * FROM netview.devices WHERE(DeviceName="+devName+" AND NetworkId="+Integer.parseInt(nwId)+");";
+        ResultSet rs=st.executeQuery(query);
         try{
-            st.executeUpdate(query);
-            return true;
+            if(rs.next()) {
+                int id = rs.getInt("DeviceId");
+                query = "UPDATE netview.devices SET DeviceName = " + nN + ", DeviceIp=" + nI + ", DeviceSm=" + nS + " WHERE (DeviceName=" + devName + ") and (NetworkId=" + nwId + ");";
+                try {
+                    st.executeUpdate(query);
+                    try {
+                        for (int i = 0; i < nP.size(); i++) {
+                            System.out.println(nP.get(i).toString());
+                            query = "UPDATE netview.ports SET PortName = " + nP.get(i)[0] + ", Status=" + nP.get(i)[1] + ", ConectedPort=" + nP.get(i)[2] + " WHERE (DeviceId=" + id + " AND Portname=" + oP.get(i)[0] + ");";
+                            st.executeUpdate(query);
+                        }
+                        for (int i = 0; i < nR.size(); i++) {
+                            query = "UPDATE netview.routes SET DestinationIp = " + nR.get(i) + " WHERE (DeviceId=" + id + " AND DestinationIp="+oR.get(i)+");";
+                            st.executeUpdate(query);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
