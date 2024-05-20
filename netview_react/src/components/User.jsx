@@ -1,6 +1,6 @@
 import React from 'react'
 import {useEffect, useState} from 'react'
-import '../stylesheets/Signup.css'
+import '../stylesheets/User.css'
 import axios from "axios";
 import NavBar from "./NavBar.jsx";
 import Cookies from "js-cookie";
@@ -38,15 +38,26 @@ function User() {
             <div id={"navBar"}>
                 <NavBar></NavBar>
             </div>
-            <div id={"cardsContainer"}>
+            <div id={"dataContainer"}>
                 <form onSubmit={changeData}>
-                    <input type="text" placeholder="Username" id="username" value={username}
-                           onChange={(e) => setUsername(e.target.value)}/>
-                    <br/>
-                    <input type="text" placeholder="Password" id="password" value={password}
-                           onChange={(e) => setPassword(e.target.value)}/>
-                    <br/>
-                    <button type={"submit"}>Change Data</button>
+                    <div id="Login">
+                        <h2 id="h2">Change data</h2>
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button type="submit" id="button">Change Data</button>
                 </form>
             </div>
         </div>

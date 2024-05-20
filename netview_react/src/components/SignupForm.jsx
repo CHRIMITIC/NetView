@@ -107,7 +107,7 @@ function SignupForm() {
             <div id={"navBar"}>
                 <NavBar></NavBar>
             </div>
-            <div id={"cardsContainer"}>
+            <div id={"signupContainer"}>
                 <table border="1">
                     {t == ("Simple") ?
                         <tbody>
@@ -151,10 +151,10 @@ function SignupForm() {
                                 </tr>
                             )}
                             <tr>
-                                <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
-                                <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
+                                <td><input type={"text"} placeholder={"Username"}/></td>
+                                <td><input type={"text"} placeholder={"Password"}/></td>
                                 <td>
-                                    <select id={"type"}>
+                                    <select >
                                         <optgroup label="Type">
                                             <option value={"Simple"}>Simple</option>
                                         </optgroup>
@@ -187,10 +187,10 @@ function SignupForm() {
                                 </tr>
                             ))}
                             <tr>
-                                <td><input type={"text"} placeholder={"Username"} id={"username"}/></td>
-                                <td><input type={"text"} placeholder={"Password"} id={"password"}/></td>
+                                <td><input type={"text"} placeholder={"Username"}/></td>
+                                <td><input type={"text"} placeholder={"Password"}/></td>
                                 <td>
-                                    <select id={"type"}>
+                                    <select>
                                         <optgroup label="Type">
                                             <option value={"Admin"}>Admin</option>
                                             <option value={"Simple"}>Simple</option>

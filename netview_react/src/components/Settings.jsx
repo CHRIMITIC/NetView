@@ -4,6 +4,8 @@ import axios from "axios";
 import NavBar from "./NavBar.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserPlus} from "@fortawesome/free-solid-svg-icons";
+import "../stylesheets/Settings.css"
+
 function Settings() {
     const u=Cookies.get("username");
     const p=Cookies.get("password");
@@ -32,12 +34,11 @@ function Settings() {
     }
 
     return (
-        <div>
+        <div  id={"div"}>
             <div id={"navBar"}>
                 <NavBar></NavBar>
             </div>
             <div id={"cardsContainer"}>
-
                 <table border="1">
                     <tbody>
                     <tr>

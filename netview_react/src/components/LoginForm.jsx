@@ -69,13 +69,12 @@ function LoginForm() {
                         {showPassword ? <VisibilityOffIcon/> : <VisibilityIcon/>}
                     </IconButton>
                 </div>
-                <br/>
                 <div id="box">
                     <div id="check">
                         <Checkbox id="checkbox" size="small"></Checkbox>
                         <label htmlFor="checkbox" id="label">Remind Me</label>
                     </div>
-                    <a id="link" href="https://youtube.com" target="blank">Forgot Password?</a>
+                    <a id="link" href="https://mail.google.com" target="blank">Forgot Password?</a>
                 </div>
                 <Button variant="contained" type="submit" id="button">Login</Button>
             </form>
