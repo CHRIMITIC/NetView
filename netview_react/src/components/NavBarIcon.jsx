@@ -25,6 +25,9 @@ function NavBarIcon({icon,label}) {
             case "Settings":
                 navigate("/settings");
                 break
+            case "About":
+                navigate("/info");
+                break
             default:
                 return "";
         }
