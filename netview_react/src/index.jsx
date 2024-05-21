@@ -9,6 +9,7 @@ import Card from "./components/Card.jsx";
 import Network from "./components/Network.jsx";
 import Settings from "./components/Settings.jsx";
 import User from "./components/User.jsx";
+import Info from "./components/Info.jsx";
 import Cookies from "js-cookie";
 
 const router=createBrowserRouter([
@@ -39,6 +40,10 @@ const router=createBrowserRouter([
     {
         path:"/settings",
         element:<Settings/>,
+    },
+    {
+        path:"/info",
+        element:<Info/>,
     }
 ])
 ReactDOM.createRoot(document.getElementById('root')).render(
